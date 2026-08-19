@@ -1,0 +1,31 @@
+
+apiVersion: "apps/v1"
+kind: "StatefulSet"
+metadata:
+  name: "httpd-meta"
+  labels:
+    app: "httpd-meta"
+spec:
+  selector:
+    matchLabels:
+      app: "httpd-meta"
+  template:
+    metadata:
+      name: "httpd-meta"
+      labels:
+        app: "httpd-meta"
+      annotations:
+        checksum/configmap: "{{ include ( print $.Template.BasePath "/" "configmap.yaml" ) . | sha256sum }}"
+    spec:
+      containers:
+        - name: "httpd-meta"
+          image: "{{$.Values.ImageNameGithub}}:{{$.Values.ImageTagGithub}}"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: {{$.Values.ListenPort}}
+          envFrom:
+            - configMapRef:
+                name: "httpd-meta"
+
+
+

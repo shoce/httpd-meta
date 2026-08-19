@@ -1,0 +1,12 @@
+
+ImageNameGithub: "ghcr.io/shoce/httpd-meta"
+ImageTagGithub: ""
+
+DEBUG: ""
+ListenHost: ""
+ListenPort: 80
+
+IngressHost: ""
+IngressRouteHost: ""
+
+

@@ -1,0 +1,19 @@
+
+{{if $.Values.IngressRouteHost -}}
+
+apiVersion: "traefik.io/v1alpha1"
+kind: "IngressRoute"
+metadata:
+  name: "httpd-meta"
+spec:
+  routes:
+    - kind: "Rule"
+      match: "Host(`{{$.Values.IngressRouteHost}}`)"
+      services:
+        - name: "httpd-meta"
+          port: {{$.Values.ListenPort}}
+
+{{end}}
+
+
+

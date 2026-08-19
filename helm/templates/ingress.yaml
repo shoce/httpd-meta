@@ -1,0 +1,30 @@
+
+{{if $.Values.IngressHost -}}
+
+apiVersion: "networking.k8s.io/v1"
+kind: "Ingress"
+metadata:
+  name: "httpd-meta"
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  ingressClassName: "nginx"
+  tls:
+  - hosts:
+    - "{{$.Values.IngressHost}}"
+  rules:
+  - host: "{{$.Values.IngressHost}}"
+    http:
+      paths:
+      - path: "/"
+        pathType: "Prefix"
+        backend:
+          service:
+            name: "httpd-meta"
+            port:
+              number: {{$.Values.ListenPort}}
+
+{{end}}
+
+
+

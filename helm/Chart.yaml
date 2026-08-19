@@ -1,0 +1,8 @@
+apiVersion: "v2"
+name: "helm.httpd-meta"
+description: ""
+type: "application"
+version: "__VERSION__"
+appVersion: "__VERSION__"
+home: "https://github.com/shoce/httpd-meta/tree/main/helm/"
+
