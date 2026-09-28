@@ -46,10 +46,11 @@ func funchttp(w http.ResponseWriter, req *http.Request) {
 		req.URL.RawQuery,
 		func(m map[string][]string)(s string){
 			for k, vv := range m {
-				s += k+NL
+				s += "["+k+"] ("+NL
 				for _, v := range vv {
 					s += TAB+"["+v+"]"+NL
 				}
+				s += ")"+NL
 			}
 			return s
 		}(req.Header),
