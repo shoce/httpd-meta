@@ -36,17 +36,19 @@ func funchttp(w http.ResponseWriter, req *http.Request) {
 	reqmeta:=F(
 		"proto[%s]"+SP+"method[%s]"+SP+"path[%s]"+NL+
 		"query[%s]"+NL+
+		"host[%s]"+NL+
 		"headers{ "+NL+
 			"%s"+
-		" }"+NL+
+		"}"+NL+
 		"body[-"+NL+
 			"%s"+NL+
 		"-]",
 		req.Proto, req.Method, req.URL.Path,
 		req.URL.RawQuery,
+		req.Host,
 		func(m map[string][]string)(s string){
 			for k, vv := range m {
-				s += "["+k+"] ("+NL
+				s += "["+k+"]("+NL
 				for _, v := range vv {
 					s += TAB+"["+v+"]"+NL
 				}
