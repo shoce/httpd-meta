@@ -23,6 +23,7 @@ var (
 	EF=fmt.Errorf
 	pout=fmt.Print
 )
+func perr(msg string) (int, error) { return fmt.Fprint(os.Stderr, msg+NL) }
 func main() {
 	
 	var err error
@@ -49,14 +50,13 @@ func main() {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		w.WriteHeader(http.StatusOK)
 		reqq:=req.URL.Query()
-		mode:=reqq.Get("hub.mode")
-		token:=reqq.Get("hub.verify_token")
-		challenge:=reqq.Get("hub.challenge")
 		perr(F(
 			"hub.mode [%s]"+SP+"hub.verify_token [%s]"+SP+"hub.challenge [%s]",
-			mode, token, challenge,
+			reqq.Get("hub.mode"), 
+			reqq.Get("hub.verify_token"), 
+			reqq.Get("hub.challenge"),
 			))
-		io.WriteString(w, challenge)
+		io.WriteString(w, reqq.Get("hub.challenge"))
 	})
 	if err:=http.ListenAndServe(ListenAddr, nil); err!=nil {
 		perr(F("ERROR ListenAndServe [%s] %v", ListenAddr, err))
@@ -64,5 +64,4 @@ func main() {
 	}
 	
 }
-func perr(msg string) (int, error) { return fmt.Fprint(os.Stderr, msg+NL) }
 

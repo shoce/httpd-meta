@@ -15,6 +15,7 @@ spec:
       labels:
         app: "httpd-meta"
       annotations:
+        image: "{{$.Values.ImageNameGithub}}:{{$.Values.ImageTagGithub}}"
         checksum/configmap: "{{ include ( print $.Template.BasePath "/" "configmap.yaml" ) . | sha256sum }}"
     spec:
       containers:

@@ -1,4 +1,4 @@
-FROM golang:1.26-alpine AS build
+FROM golang:1.27-alpine AS build
 RUN mkdir /src/
 COPY go.mod *.go /src/
 WORKDIR /src/
@@ -8,3 +8,4 @@ FROM alpine:3
 COPY --from=build /src/httpd-meta /bin/httpd-meta
 EXPOSE 80
 ENTRYPOINT ["/bin/httpd-meta"]
+
