@@ -15,6 +15,7 @@ import (
 const (
 	ListenAddrDef=":80"
 	SP=" "
+	TAB="\t"
 	NL="\n"
 )
 var (
@@ -35,11 +36,23 @@ func funchttp(w http.ResponseWriter, req *http.Request) {
 	reqmeta:=F(
 		"proto[%s]"+SP+"method[%s]"+SP+"path[%s]"+NL+
 		"query[%s]"+NL+
-		"headers{ %v }"+NL+
-		"body[%s]",
+		"headers{ "+NL+
+			"%s"+
+		" }"+NL+
+		"body[-"+NL+
+			"%s"+NL+
+		"-]",
 		req.Proto, req.Method, req.URL.Path,
 		req.URL.RawQuery,
-		req.Header,
+		func(m map[string][]string)(s string){
+			for k, vv := range m {
+				s += k+NL
+				for _, v := range vv {
+					s += TAB+"["+v+"]"+NL
+				}
+			}
+			return s
+		}(req.Header),
 		string(reqbody),
 	)
 	perr(reqmeta)
